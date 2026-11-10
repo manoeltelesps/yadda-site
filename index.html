@@ -5,39 +5,106 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>YADDA</title>
   <meta name="description" content="YADDA é um aplicativo de Comunicação Aumentativa e Alternativa (CAA) para iPad.">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#111113" media="(prefers-color-scheme: dark)">
+  <link rel="icon" href="favicon.png" type="image/png">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
   <link rel="stylesheet" href="estilo.css">
+  <script>
+    if (!matchMedia("(prefers-reduced-motion: reduce)").matches) document.documentElement.classList.add("anima");
+  </script>
+  <script src="js/lenis-1.3.27.js" defer></script>
+  <script src="js/motion-14.6.0.js" defer></script>
+  <script src="js/animacoes.js" defer></script>
+  <script src="js/ipad3d.js" type="module"></script>
 </head>
 <body>
-  <header>
-    <a class="marca" href="index.html">YADDA</a>
-    <nav aria-label="Páginas do site">
-      <a href="index.html" aria-current="page">Início</a>
-      <a href="privacidade.html">Política de privacidade</a>
-      <a href="suporte.html">Suporte</a>
-    </nav>
+  <a class="pular" href="#conteudo">Pular para o conteúdo</a>
+  <div class="progresso" aria-hidden="true"></div>
+
+  <header class="topo">
+    <div class="conteudo">
+      <a class="marca" href="index.html" data-entra><img src="img/icone.png" alt="" width="40" height="40">YADDA</a>
+      <nav class="menu" aria-label="Páginas do site">
+        <a href="index.html" aria-current="page" data-entra>Início</a>
+        <a href="privacidade.html" data-entra>Privacidade</a>
+        <a href="suporte.html" data-entra>Suporte</a>
+      </nav>
+    </div>
   </header>
 
-  <main>
-    <h1>Comunicação do seu jeito</h1>
-    <p class="subtitulo">O YADDA é um aplicativo de Comunicação Aumentativa e Alternativa (CAA) para iPad.</p>
+  <main id="conteudo">
+    <section class="conteudo abertura">
+      <div class="abertura__texto">
+        <div class="frase" role="group" aria-label="Frase de exemplo. Toque em uma palavra para ouvir.">
+          <button type="button" data-entra data-palavra="autonomia">autonomia</button>
+          <button type="button" data-entra data-palavra="para">para</button>
+          <button type="button" data-entra data-palavra="se comunicar">se comunicar</button>
+        </div>
+        <h1 data-palavras>Comunicação do seu jeito</h1>
+        <p class="apoio" data-entra>O YADDA é um app de Comunicação Aumentativa e Alternativa para iPad. Toque nos cards, monte a frase e o iPad fala por você.</p>
+        <a class="botao botao--principal" href="suporte.html" data-entra>Fale com a gente</a>
+      </div>
+      <div class="palco" data-entra>
+        <figure class="ipad" data-inclina data-ipad="prancha">
+          <img src="img/prancha.jpg" width="2048" height="1536" alt="Prancha do YADDA no iPad deitado, com cards coloridos de palavras organizados em colunas por cor e a frase autonomia para se comunicar escrita na barra de baixo, com sugestões de próximas palavras.">
+        </figure>
+      </div>
+    </section>
 
-    <p>Com o YADDA, você monta frases juntando cards de palavras e o app fala a frase em voz alta. O vocabulário pode ser personalizado com suas próprias palavras, fotos e pastas.</p>
+    <section class="conteudo escuta" aria-labelledby="titulo-escuta">
+      <div class="escuta__texto" data-cascata>
+        <h2 id="titulo-escuta">Modo Escuta</h2>
+        <p class="apoio">O YADDA ouve a conversa e sugere palavras para você responder mais rápido.</p>
+        <p>A fala vira texto no próprio iPad. Nenhum áudio é gravado e a conversa é apagada quando a escuta termina.</p>
+      </div>
+      <figure class="ipad" data-revela data-ipad="escuta">
+        <img src="img/escuta.jpg" width="2048" height="1536" alt="Tela do Modo Escuta no iPad deitado, com uma esfera colorida no centro e o botão para permitir o microfone e a fala." loading="lazy">
+      </figure>
+    </section>
 
-    <ul>
-      <li>Prancha de cards com cores por tipo de palavra.</li>
-      <li>Criação de cards e pastas com foto ou ilustração.</li>
-      <li>Fala da frase com a voz do sistema.</li>
-      <li>Sugestões de palavras aprendidas no próprio aparelho.</li>
-      <li>Modo Escuta: ouve a conversa e sugere palavras para responder, sem gravar áudio.</li>
-    </ul>
+    <section class="conteudo recursos" aria-labelledby="titulo-recursos">
+      <h2 id="titulo-recursos" data-revela>Feito para o dia a dia</h2>
+      <ul data-cascata>
+        <li>
+          <h3>Cores por tipo de palavra</h3>
+          <p>Pessoas, ações, lugares e perguntas têm cores próprias. Fica mais rápido achar o que você quer dizer.</p>
+        </li>
+        <li>
+          <h3>Seu vocabulário</h3>
+          <p>Crie cards e pastas com suas palavras e suas fotos, na ordem que fizer sentido para você.</p>
+        </li>
+        <li>
+          <h3>Sugestões que aprendem com você</h3>
+          <p>O app sugere a próxima palavra com base no que você costuma falar. Tudo aprendido no próprio iPad.</p>
+        </li>
+        <li>
+          <h3>Voz do sistema</h3>
+          <p>Escolha a voz, a velocidade e o tom. Funciona sem internet.</p>
+        </li>
+      </ul>
+    </section>
 
-    <div class="cartao">
-      <p><strong>Sua privacidade em primeiro lugar.</strong> Tudo o que você cria e fala no YADDA fica no seu iPad. O app não tem conta, não envia seus dados para servidores e não usa rastreamento. <a href="privacidade.html">Leia a política de privacidade</a>.</p>
-    </div>
+    <section class="faixa" aria-labelledby="titulo-privacidade">
+      <div class="conteudo" data-cascata>
+        <h2 id="titulo-privacidade">Seus dados ficam no seu iPad</h2>
+        <p>Sem conta, sem servidor, sem rastreamento. O que você cria e fala no YADDA não sai do aparelho.</p>
+        <p><a href="privacidade.html">Ler a política de privacidade</a></p>
+      </div>
+    </section>
   </main>
 
-  <footer>
-    <p>Dúvidas ou problemas? <a href="suporte.html">Fale com a gente</a>.</p>
+  <footer class="rodape">
+    <div class="conteudo">
+      <div class="rodape__texto">
+        <p>YADDA, Comunicação Aumentativa e Alternativa para iPad.</p>
+        <p>Modelo 3D do iPad: <a href="https://sketchfab.com/3d-models/apple-ipad-pro-e5ffb3c80b2d4d6690249f8ee2bdafbe">Apple iPad Pro</a>, de <a href="https://sketchfab.com/DatSketch">DatSketch</a>, licença <a href="https://creativecommons.org/licenses/by-nc/4.0/deed.pt-br">CC BY-NC 4.0</a>. Modificado: sem o Apple Pencil e com telas do YADDA.</p>
+      </div>
+      <nav aria-label="Rodapé">
+        <a href="privacidade.html">Privacidade</a>
+        <a href="suporte.html">Suporte</a>
+      </nav>
+    </div>
   </footer>
 </body>
 </html>

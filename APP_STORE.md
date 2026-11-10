@@ -60,5 +60,5 @@ Observação: o vocabulário é personalizável, mas fica só no aparelho de que
 
 - [ ] Screenshots de iPad (13") e de iPhone (6,9"), se o app for publicado para iPhone. Tarefa C18-111.
 - [ ] Nome, subtítulo, descrição, palavras-chave e texto promocional em pt-BR. Tarefa C18-111.
-- [ ] Ativar o GitHub Pages deste repositório e conferir as URLs acima abrindo no navegador.
+- [x] Ativar o GitHub Pages deste repositório e conferir as URLs acima abrindo no navegador.
 - [ ] Revisão das declarações de privacidade pelo time. Tarefa C18-97.

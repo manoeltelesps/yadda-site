@@ -5,52 +5,79 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Suporte · YADDA</title>
   <meta name="description" content="Suporte e perguntas frequentes do aplicativo YADDA.">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#111113" media="(prefers-color-scheme: dark)">
+  <link rel="icon" href="favicon.png" type="image/png">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
   <link rel="stylesheet" href="estilo.css">
+  <script>
+    if (!matchMedia("(prefers-reduced-motion: reduce)").matches) document.documentElement.classList.add("anima");
+  </script>
+  <script src="js/lenis-1.3.27.js" defer></script>
+  <script src="js/motion-14.6.0.js" defer></script>
+  <script src="js/animacoes.js" defer></script>
 </head>
 <body>
-  <header>
-    <a class="marca" href="index.html">YADDA</a>
-    <nav aria-label="Páginas do site">
-      <a href="index.html">Início</a>
-      <a href="privacidade.html">Política de privacidade</a>
-      <a href="suporte.html" aria-current="page">Suporte</a>
-    </nav>
+  <a class="pular" href="#conteudo">Pular para o conteúdo</a>
+  <div class="progresso" aria-hidden="true"></div>
+
+  <header class="topo">
+    <div class="conteudo">
+      <a class="marca" href="index.html" data-entra><img src="img/icone.png" alt="" width="40" height="40">YADDA</a>
+      <nav class="menu" aria-label="Páginas do site">
+        <a data-entra href="index.html">Início</a>
+        <a data-entra href="privacidade.html">Privacidade</a>
+        <a data-entra href="suporte.html" aria-current="page">Suporte</a>
+      </nav>
+    </div>
   </header>
 
-  <main>
-    <h1>Suporte</h1>
-    <p class="subtitulo">Precisa de ajuda com o YADDA? Estamos aqui.</p>
+  <main id="conteudo" class="conteudo leitura">
+    <h1 data-palavras>Suporte</h1>
+    <p class="apoio" data-entra>Precisa de ajuda com o YADDA? Escreva para a gente contando o que aconteceu, o modelo do iPad e a versão do iPadOS.</p>
+    <p data-entra><a class="botao botao--principal" href="mailto:manoeltelesdev@gmail.com?subject=Suporte%20YADDA">Enviar e-mail</a></p>
 
-    <div class="cartao">
-      <p>Escreva para <a href="mailto:manoeltelesdev@gmail.com?subject=Suporte%20YADDA">manoeltelesdev@gmail.com</a> contando o que aconteceu, o modelo do iPad e a versão do iPadOS. Respondemos o mais rápido possível.</p>
+    <h2 data-revela>Perguntas frequentes</h2>
+    <div class="perguntas" data-cascata>
+      <details>
+        <summary>Como monto e falo uma frase?</summary>
+        <p class="resposta">Toque nos cards da prancha na ordem da frase. Eles aparecem na barra de baixo. Depois, toque em Falar.</p>
+      </details>
+      <details>
+        <summary>Como crio um card com uma foto minha?</summary>
+        <p class="resposta">Toque no botão de mais (+), escolha Criar card, escreva a palavra e escolha uma foto da galeria ou tire uma foto na hora.</p>
+      </details>
+      <details>
+        <summary>Como edito ou apago um card?</summary>
+        <p class="resposta">Pressione e segure o card na prancha para abrir o menu com as opções de editar, mover, duplicar e excluir.</p>
+      </details>
+      <details>
+        <summary>Posso mudar a voz?</summary>
+        <p class="resposta">Sim. Em Configurações, escolha a voz, a velocidade e o tom. Para uma voz mais natural, baixe uma voz Aprimorada em português nos Ajustes do iPad (Acessibilidade &gt; Conteúdo Falado &gt; Vozes).</p>
+      </details>
+      <details>
+        <summary>O Modo Escuta grava o que as pessoas falam?</summary>
+        <p class="resposta">Não. A fala é transformada em texto no próprio iPad, nenhum áudio é gravado e a conversa é descartada quando a escuta termina. Veja a <a href="privacidade.html">política de privacidade</a>.</p>
+      </details>
+      <details>
+        <summary>O Modo Escuta não entende bem a fala. O que faço?</summary>
+        <p class="resposta">Confira se o iPad está com o idioma português (Brasil) e conectado à internet na primeira vez que usar a escuta, para o sistema baixar o reconhecimento de fala. Ambientes muito barulhentos também atrapalham.</p>
+      </details>
+      <details>
+        <summary>Como apago todos os meus dados?</summary>
+        <p class="resposta">Em Configurações, use a opção de apagar todos os dados do comunicador. Apagar o app do iPad também remove tudo.</p>
+      </details>
     </div>
-
-    <h2>Perguntas frequentes</h2>
-
-    <h3>Como monto e falo uma frase?</h3>
-    <p>Toque nos cards da prancha na ordem da frase. Eles aparecem na barra de baixo. Depois, toque em Falar.</p>
-
-    <h3>Como crio um card com uma foto minha?</h3>
-    <p>Toque no botão de mais (+), escolha Criar card, escreva a palavra e escolha uma foto da galeria ou tire uma foto na hora.</p>
-
-    <h3>Como edito ou apago um card?</h3>
-    <p>Pressione e segure o card na prancha para abrir o menu com as opções de editar, mover, duplicar e excluir.</p>
-
-    <h3>Posso mudar a voz?</h3>
-    <p>Sim. Em Configurações, escolha a voz, a velocidade e o tom. Para uma voz mais natural, baixe uma voz Aprimorada em português nos Ajustes do iPad (Acessibilidade &gt; Conteúdo Falado &gt; Vozes).</p>
-
-    <h3>O Modo Escuta grava o que as pessoas falam?</h3>
-    <p>Não. A fala é transformada em texto no próprio iPad, nenhum áudio é gravado e a conversa é descartada quando a escuta termina. Veja a <a href="privacidade.html">política de privacidade</a>.</p>
-
-    <h3>O Modo Escuta não entende bem a fala. O que faço?</h3>
-    <p>Confira se o iPad está com o idioma português (Brasil) e conectado à internet na primeira vez que usar a escuta, para o sistema baixar o reconhecimento de fala. Ambientes muito barulhentos também atrapalham.</p>
-
-    <h3>Como apago todos os meus dados?</h3>
-    <p>Em Configurações, use a opção de apagar todos os dados do comunicador. Apagar o app do iPad também remove tudo.</p>
   </main>
 
-  <footer>
-    <p>Contato: <a href="mailto:manoeltelesdev@gmail.com">manoeltelesdev@gmail.com</a> · <a href="privacidade.html">Política de privacidade</a></p>
+  <footer class="rodape">
+    <div class="conteudo">
+      <p>Contato: <a href="mailto:manoeltelesdev@gmail.com">manoeltelesdev@gmail.com</a></p>
+      <nav aria-label="Rodapé">
+        <a href="privacidade.html">Privacidade</a>
+        <a href="suporte.html">Suporte</a>
+      </nav>
+    </div>
   </footer>
 </body>
 </html>
