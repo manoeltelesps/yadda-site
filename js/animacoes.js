@@ -89,6 +89,17 @@
       }, { amount: 0.2 });
     });
 
+    // Frase em cards do rodapé: cai no lugar com mola, um card de cada vez.
+    document.querySelectorAll("[data-frase-revela]").forEach(function (frase) {
+      var cards = frase.querySelectorAll("button");
+      cards.forEach(function (c) { c.style.opacity = "0"; });
+      inView(frase, function () {
+        animate(cards, { opacity: [0, 1], y: [32, 0], rotate: [-10, 0], scale: [0.7, 1] },
+          { type: "spring", bounce: 0.45, visualDuration: 0.3, delay: stagger(0.08) })
+          .then(function () { cards.forEach(function (c) { c.style.transform = ""; }); });
+      }, { amount: 0.5 });
+    });
+
     // Barra de progresso da leitura.
     var barra = document.querySelector(".progresso");
     if (barra) {

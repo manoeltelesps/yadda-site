@@ -5,32 +5,61 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Suporte · YADDA</title>
   <meta name="description" content="Suporte e perguntas frequentes do aplicativo YADDA.">
-  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#111113" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" data-cor-tema="light">
+  <meta name="theme-color" content="#111113" media="(prefers-color-scheme: dark)" data-cor-tema="dark">
   <link rel="icon" href="favicon.png" type="image/png">
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
   <link rel="stylesheet" href="estilo.css">
   <script>
+    try { var t = localStorage.getItem("yadda-tema"); if (t === "light" || t === "dark") document.documentElement.dataset.theme = t; } catch (e) {}
     if (!matchMedia("(prefers-reduced-motion: reduce)").matches) document.documentElement.classList.add("anima");
   </script>
   <script src="js/lenis-1.3.27.js" defer></script>
   <script src="js/motion-14.6.0.js" defer></script>
   <script src="js/animacoes.js" defer></script>
+  <script src="js/navbar.js" defer></script>
+  <script src="js/tema.js" defer></script>
 </head>
 <body>
   <a class="pular" href="#conteudo">Pular para o conteúdo</a>
   <div class="progresso" aria-hidden="true"></div>
 
-  <header class="topo">
-    <div class="conteudo">
-      <a class="marca" href="index.html" data-entra><img src="img/icone.png" alt="" width="40" height="40">YADDA</a>
-      <nav class="menu" aria-label="Páginas do site">
-        <a data-entra href="index.html">Início</a>
-        <a data-entra href="privacidade.html">Privacidade</a>
-        <a data-entra href="suporte.html" aria-current="page">Suporte</a>
+  <div class="nav-cena" data-largo="true" data-entra>
+    <header class="nav">
+      <span class="nav__vidro" aria-hidden="true"></span>
+      <a class="nav__marca" href="index.html" aria-label="YADDA, início"><img src="img/icone.png" alt="" width="32" height="32">YADDA</a>
+      <nav class="nav__links" aria-label="Páginas do site">
+        <a href="index.html">Início</a>
+        <a href="privacidade.html">Privacidade</a>
+        <a href="suporte.html" aria-current="page">Suporte</a>
       </nav>
+      <div class="nav__acoes">
+      <div class="tema" role="group" aria-label="Tema do site">
+        <span class="tema__bolinha" aria-hidden="true"></span>
+        <button type="button" class="tema__opcao" data-tema="light" aria-label="Claro" aria-pressed="false"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg></button>
+        <button type="button" class="tema__opcao" data-tema="dark" aria-label="Escuro" aria-pressed="false"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg></button>
+      </div>
+      <a class="nav__cta" href="suporte.html">Entrar em contato<svg class="nav__seta" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+      </div>
+      <button type="button" class="nav__menu" aria-expanded="false" aria-controls="nav-painel" aria-label="Abrir menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+    </header>
+    <div class="nav-painel" id="nav-painel" hidden>
+      <nav class="nav-painel__links" aria-label="Páginas do site">
+        <a data-item href="index.html">Início</a>
+        <a data-item href="privacidade.html">Privacidade</a>
+        <a data-item href="suporte.html" aria-current="page">Suporte</a>
+      </nav>
+      <div class="nav-painel__tema" data-item>
+        <span>Tema</span>
+      <div class="tema" role="group" aria-label="Tema do site">
+        <span class="tema__bolinha" aria-hidden="true"></span>
+        <button type="button" class="tema__opcao" data-tema="light" aria-label="Claro" aria-pressed="false"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg></button>
+        <button type="button" class="tema__opcao" data-tema="dark" aria-label="Escuro" aria-pressed="false"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg></button>
+      </div>
+      </div>
+      <a class="nav-painel__cta" data-item href="suporte.html">Entrar em contato</a>
     </div>
-  </header>
+  </div>
 
   <main id="conteudo" class="conteudo leitura">
     <h1 data-palavras>Suporte</h1>
@@ -71,12 +100,24 @@
   </main>
 
   <footer class="rodape">
-    <div class="conteudo">
-      <p>Contato: <a href="mailto:manoeltelesdev@gmail.com">manoeltelesdev@gmail.com</a></p>
-      <nav aria-label="Rodapé">
-        <a href="privacidade.html">Privacidade</a>
-        <a href="suporte.html">Suporte</a>
+    <div class="conteudo rodape__fecho">
+      <div class="frase" role="group" aria-label="Frase de exemplo. Toque em uma palavra para ouvir." data-frase-revela>
+          <button type="button" data-palavra="autonomia">autonomia</button>
+          <button type="button" data-palavra="para">para</button>
+          <button type="button" data-palavra="se comunicar">se comunicar</button>
+        </div>
+    </div>
+    <div class="conteudo rodape__base">
+      <div class="rodape__marca">
+        <a class="nav__marca" href="index.html" aria-label="YADDA, início"><img src="img/icone.png" alt="" width="32" height="32">YADDA</a>
+        <p>Comunicação Aumentativa e Alternativa para iPad.</p>
+      </div>
+      <nav class="rodape__links" aria-label="Rodapé">
+          <a href="index.html">Início</a>
+          <a href="privacidade.html">Privacidade</a>
+          <a href="suporte.html" aria-current="page">Suporte</a>
       </nav>
+      <a class="rodape__contato" href="mailto:manoeltelesdev@gmail.com">manoeltelesdev@gmail.com</a>
     </div>
   </footer>
 </body>
