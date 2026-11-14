@@ -829,24 +829,24 @@ p { margin: 0; }
   .bento__item--sugestoes { grid-area: sugestoes; }
   .bento__item { padding: var(--space-8); }
   .bento__arte--cores { gap: var(--space-3); }
-  .mini { flex: 0 0 120px; max-width: none; }
+  .mini { max-width: 120px; }
   .mini .picto { width: 56px; }
 }
 
-/* Animação dentro do pictograma: só as peças do SVG se mexem (olhos, boca, ondas, balão, gota).
+/* Animação dentro do pictograma: só as peças do SVG se mexem (olhos, boca, ondas, balão, maleta).
    No hover com mouse; em loop sem mouse. Nada com Reduzir Movimento. */
 .picto g { transform-box: fill-box; transform-origin: center; }
 .picto .p-boca { transform-origin: 50% 0%; }
 .picto .p-bolha1, .picto .p-bolha2, .picto .p-bolha3 { transform-origin: 0% 100%; }
-.picto .p-gota { transform-origin: 50% 100%; }
+.picto .p-maleta { transform-origin: 50% 12%; }
 
 @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
   .bento__item:hover .p-olhos { animation: piscar 1.6s ease-in-out; }
   .bento__item:hover .p-sobr { animation: sobrancelha 1.6s cubic-bezier(.34, 1.56, .64, 1); }
   .bento__item:hover .picto--criar .p-boca,
   .bento__item:hover .picto--eu .p-boca,
-  .bento__item:hover .picto--querer .p-boca,
-  .bento__item:hover .picto--beber .p-boca { animation: sorriso 1.6s cubic-bezier(.34, 1.56, .64, 1); }
+  .bento__item:hover .picto--precisar .p-boca,
+  .bento__item:hover .picto--ir .p-boca { animation: sorriso 1.6s cubic-bezier(.34, 1.56, .64, 1); }
 
   .bento__item:hover .picto--falar .p-boca { animation: falar 1.6s ease-in-out; }
   .bento__item:hover .p-onda1 { animation: onda 1.6s ease-out both; }
@@ -858,7 +858,7 @@ p { margin: 0; }
   .bento__item:hover .p-bolha3 { animation: bolha 1.6s cubic-bezier(.34, 1.56, .64, 1) 240ms both; }
   .bento__item:hover .picto--pensar .p-olhos { animation: olhar 1.6s ease-in-out; }
 
-  .bento__item:hover .p-gota { animation: gota 1.6s cubic-bezier(.5, 0, .5, 1); }
+  .bento__item:hover .p-maleta { animation: maleta 1.6s ease-in-out; }
 }
 /* Sem mouse (celular e iPad) não tem hover: as peças ficam em loop, mais devagar. */
 @media (hover: none) and (prefers-reduced-motion: no-preference) {
@@ -866,8 +866,8 @@ p { margin: 0; }
   .bento__item .p-sobr { animation: sobrancelha 1.6s cubic-bezier(.34, 1.56, .64, 1); }
   .bento__item .picto--criar .p-boca,
   .bento__item .picto--eu .p-boca,
-  .bento__item .picto--querer .p-boca,
-  .bento__item .picto--beber .p-boca { animation: sorriso 1.6s cubic-bezier(.34, 1.56, .64, 1); }
+  .bento__item .picto--precisar .p-boca,
+  .bento__item .picto--ir .p-boca { animation: sorriso 1.6s cubic-bezier(.34, 1.56, .64, 1); }
 
   .bento__item .picto--falar .p-boca { animation: falar 1.6s ease-in-out; }
   .bento__item .p-onda1 { animation: onda 1.6s ease-out both; }
@@ -879,7 +879,7 @@ p { margin: 0; }
   .bento__item .p-bolha3 { animation: bolha 1.6s cubic-bezier(.34, 1.56, .64, 1) 240ms both; }
   .bento__item .picto--pensar .p-olhos { animation: olhar 1.6s ease-in-out; }
 
-  .bento__item .p-gota { animation: gota 1.6s cubic-bezier(.5, 0, .5, 1); }
+  .bento__item .p-maleta { animation: maleta 1.6s ease-in-out; }
   .bento .bento__item .picto [class^="p-"] { animation-duration: 2.8s; animation-iteration-count: infinite; }
 }
 @keyframes piscar {
@@ -918,13 +918,14 @@ p { margin: 0; }
   0%, 100% { transform: translate(0, 0); }
   25%, 70% { transform: translate(8px, -8px); }
 }
-@keyframes gota {
-  0% { transform: translateY(0) scale(1); opacity: 1; }
-  15% { transform: translateY(-120px) scale(0.8); opacity: 0; }
-  20% { transform: translateY(-120px) scale(0.8); opacity: 1; }
-  60% { transform: translateY(0) scale(1.1, 0.85); }
-  75%, 100% { transform: translateY(0) scale(1); }
+@keyframes maleta {
+  0%, 100% { transform: rotate(0); }
+  15% { transform: rotate(-10deg); }
+  35% { transform: rotate(8deg); }
+  55% { transform: rotate(-5deg); }
+  75% { transform: rotate(2deg); }
 }
+
 .escuta {
   display: grid;
   gap: var(--space-10);
