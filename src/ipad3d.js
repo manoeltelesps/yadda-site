@@ -13,6 +13,9 @@ const root = document.documentElement;
 const reduz = matchMedia("(prefers-reduced-motion: reduce)").matches;
 const ancoraA = document.querySelector("[data-ipad='prancha']");
 const ancoraB = document.querySelector("[data-ipad='escuta']");
+// Celular e tablet sem mouse: menos pixels, texturas menores e sem antialias em tela de alta densidade.
+const leve = matchMedia("(hover: none), (max-width: 900px)").matches;
+const dpr = window.devicePixelRatio || 1;
 
 function temWebGL() {
   try {
@@ -29,8 +32,8 @@ async function iniciar() {
   canvas.setAttribute("aria-hidden", "true");
   document.body.appendChild(canvas);
 
-  const renderer = new WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: "high-performance" });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  const renderer = new WebGLRenderer({ canvas, antialias: !leve || dpr < 2, alpha: true, powerPreference: "high-performance" });
+  renderer.setPixelRatio(Math.min(dpr, leve ? 1.5 : 2));
   renderer.outputColorSpace = SRGBColorSpace;
   renderer.toneMapping = ACESFilmicToneMapping;
 
@@ -50,14 +53,14 @@ async function iniciar() {
     t.center.set(0.5, 0.5);
     t.rotation = -Math.PI / 2;
     t.repeat.set(-1, 1);
-    t.anisotropy = renderer.capabilities.getMaxAnisotropy();
+    t.anisotropy = Math.min(renderer.capabilities.getMaxAnisotropy(), leve ? 4 : 16);
     ok(t);
   }, undefined, erro));
 
   const [gltf, texPrancha, texEscuta] = await Promise.all([
     new GLTFLoader().loadAsync("img/ipad.glb"),
-    carregaTextura("img/prancha.jpg"),
-    carregaTextura("img/escuta.jpg"),
+    carregaTextura(leve ? "img/prancha-1024.jpg" : "img/prancha.jpg"),
+    carregaTextura(leve ? "img/escuta-1024.jpg" : "img/escuta.jpg"),
   ]);
 
   // Centraliza o modelo e deita o iPad (o original vem de pé).
@@ -94,19 +97,38 @@ async function iniciar() {
   const estado = { entrada: 0, mx: 0, my: 0, progresso: 0 };
   const alvo = { mx: 0, my: 0 };
 
+  // O canvas tem a altura da tela com a barra do Safari recolhida (100lvh), então a barra
+  // aparecer ou sumir não muda o tamanho e não refaz os buffers no meio da rolagem.
+  let larguraCanvas = 0, alturaCanvas = 0;
   function tamanhoTela() {
-    const w = window.innerWidth, h = window.innerHeight;
+    const w = canvas.clientWidth, h = canvas.clientHeight;
+    if (w === larguraCanvas && h === alturaCanvas) return;
+    larguraCanvas = w; alturaCanvas = h;
     renderer.setSize(w, h, false);
     camera.aspect = w / h;
     camera.updateProjectionMatrix();
   }
   tamanhoTela();
-  window.addEventListener("resize", tamanhoTela);
+
+  // Só desenha quando algo muda: rolagem, ponteiro, tamanho ou animação em curso.
+  // Parado, o último quadro fica na tela e a GPU descansa.
+  let rodando = false;
+  function acordar() {
+    if (rodando) return;
+    rodando = true;
+    estado.ultimo = performance.now();
+    requestAnimationFrame(quadro);
+  }
+  window.addEventListener("scroll", acordar, { passive: true });
+  window.addEventListener("resize", () => { tamanhoTela(); acordar(); });
+  window.addEventListener("load", acordar);
+  if ("ResizeObserver" in window) new ResizeObserver(acordar).observe(document.body);
 
   if (matchMedia("(hover: hover) and (pointer: fine)").matches) {
     window.addEventListener("pointermove", (e) => {
       alvo.mx = e.clientX / window.innerWidth - 0.5;
       alvo.my = e.clientY / window.innerHeight - 0.5;
+      acordar();
     });
   }
 
@@ -115,7 +137,7 @@ async function iniciar() {
   const retangulo = (el) => el.getBoundingClientRect();
 
   function quadro() {
-    const h = window.innerHeight;
+    const h = alturaCanvas;
     const ra = retangulo(ancoraA), rb = retangulo(ancoraB);
 
     // Progresso: 0 com a abertura no centro da tela, 1 quando o Modo Escuta chega a 70% da altura,
@@ -139,7 +161,7 @@ async function iniciar() {
     // Converte pixels da tela para unidades da cena no plano z = 0.
     const alturaVisivel = 2 * distancia * Math.tan((fov * Math.PI) / 360);
     const px = alturaVisivel / h;
-    ipad.position.set((cx - window.innerWidth / 2) * px, -(cy - h / 2) * px, 0);
+    ipad.position.set((cx - larguraCanvas / 2) * px, -(cy - h / 2) * px, 0);
     const escala = (largura * px) / larguraModelo;
 
     // Entrada: sobe pouco e se assenta.
@@ -159,17 +181,24 @@ async function iniciar() {
     ipad.rotation.x = (1 - e) * 0.18 + arco * 0.08 + estado.my * 0.06;
     ipad.rotation.z = 0;
 
-    renderer.render(cena, camera);
+    // Fora da tela não desenha: esconde o canvas para não sobrar o último quadro.
+    const visivel = cy + largura > 0 && cy - largura < h;
+    canvas.style.visibility = visivel ? "" : "hidden";
+    if (visivel) renderer.render(cena, camera);
+
+    const assentado = Math.abs(bruto - estado.progresso) < 0.0005 && e >= 1 &&
+      Math.abs(alvo.mx - estado.mx) < 0.001 && Math.abs(alvo.my - estado.my) < 0.001;
+    if (assentado) { rodando = false; return; }
     requestAnimationFrame(quadro);
   }
 
   root.classList.add("tres");
-  requestAnimationFrame(quadro);
+  acordar();
 
   const M = window.Motion;
   if (M) {
     M.animate(canvas, { opacity: [0, 1] }, { duration: 0.5, ease: [0.2, 0, 0, 1], delay: 0.3 });
-    M.animate(estado, { entrada: [0, 1] }, { duration: 0.8, ease: [0.2, 0, 0, 1], delay: 0.3 });
+    M.animate(estado, { entrada: [0, 1] }, { duration: 0.8, ease: [0.2, 0, 0, 1], delay: 0.3 }).then(acordar);
   } else {
     estado.entrada = 1;
   }

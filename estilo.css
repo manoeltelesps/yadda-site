@@ -570,7 +570,7 @@ body { padding-top: var(--nav-reserva); }
   left: 50%;
   display: grid;
   width: 300vw;
-  margin: 0 0 0 -150vw;
+  margin-left: -150vw;
   transform: translateY(-50%) rotate(-12deg);
 }
 .mosaico__fila {
@@ -589,6 +589,9 @@ body { padding-top: var(--nav-reserva); }
   from { transform: translate3d(calc(-1 * var(--mosaico-w)), 0, 0); }
   to { transform: translate3d(0, 0, 0); }
 }
+/* Fora da tela o loop para (js/pausa.js). */
+.fora-da-tela .anda .mosaico__fila,
+.bento.fora-da-tela .bento__item .picto [class^="p-"] { animation-play-state: paused; }
 @media (prefers-reduced-motion: reduce) {
   .anda .mosaico__fila { animation: none; }
   .tema__bolinha { transition: none; }
@@ -728,9 +731,11 @@ p { margin: 0; }
 /* iPad 3D: o canvas cobre a tela, e as molduras viram só âncoras de posição */
 .cena3d {
   position: fixed;
-  inset: 0;
+  top: 0;
+  left: 0;
   width: 100%;
-  height: 100%;
+  height: 100vh;
+  height: 100lvh;
   z-index: 5;
   pointer-events: none;
   opacity: 0;

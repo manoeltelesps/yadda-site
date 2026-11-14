@@ -80,20 +80,47 @@
     })(l);
   });
 
-  function montar(urls) {
-    var total = Math.ceil((window.screen.height * 3) / PASSO) + 2;
+  // Só as fileiras e a largura que cobrem a hero inclinada. Antes eram 300vw e a altura da tela vezes 3,
+  // o que no celular virava cerca de 20 camadas enormes animando ao mesmo tempo.
+  var ANGULO = 12 * Math.PI / 180;
+  var urlsProntas = null, filas = 0;
+  function medidas() {
+    var r = plano.parentElement.getBoundingClientRect();
+    var w = Math.max(r.width, window.innerWidth), h = Math.max(r.height, 1);
+    return {
+      largura: Math.ceil(w * Math.cos(ANGULO) + h * Math.sin(ANGULO)) + PASSO * 2,
+      filas: Math.ceil((w * Math.sin(ANGULO) + h * Math.cos(ANGULO)) / PASSO) + 2
+    };
+  }
+  function ajustar() {
+    if (!urlsProntas) return;
+    var m = medidas();
+    plano.style.width = m.largura + "px";
+    plano.style.marginLeft = -m.largura / 2 + "px";
     var frag = document.createDocumentFragment();
-    for (var f = 0; f < total; f++) {
+    for (; filas < m.filas; filas++) {
       var fila = document.createElement("div");
-      fila.className = "mosaico__fila " + (f % 2 ? "mosaico__fila--dir" : "mosaico__fila--esq");
-      fila.style.backgroundImage = "url(" + urls[f % LINHAS] + ")";
+      fila.className = "mosaico__fila " + (filas % 2 ? "mosaico__fila--dir" : "mosaico__fila--esq");
+      fila.style.backgroundImage = "url(" + urlsProntas[filas % LINHAS] + ")";
       // Fileiras ímpares deslocadas meio card, como tijolo.
-      fila.style.backgroundPositionX = (f % 2) * (PASSO / 2) + "px";
+      fila.style.backgroundPositionX = (filas % 2) * (PASSO / 2) + "px";
       frag.appendChild(fila);
     }
+    plano.appendChild(frag);
+  }
+
+  function montar(urls) {
+    urlsProntas = urls;
     plano.style.setProperty("--mosaico-w", W + "px");
     plano.style.setProperty("--mosaico-fila", PASSO + "px");
-    plano.appendChild(frag);
+    ajustar();
     plano.classList.add("anda");
+    var larguraAntes = window.innerWidth;
+    window.addEventListener("resize", function () {
+      // A barra do Safari muda só a altura; aí não precisa refazer nada.
+      if (window.innerWidth === larguraAntes) return;
+      larguraAntes = window.innerWidth;
+      ajustar();
+    });
   }
 })();
