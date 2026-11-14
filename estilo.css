@@ -793,14 +793,16 @@ p { margin: 0; }
 .bento__item--sugestoes { background: linear-gradient(180deg, var(--bento-purple-topo), var(--purple-500)); }
 
 /* Mini cards da paleta */
-.bento__arte--cores { flex-wrap: wrap; gap: var(--space-3); }
+.bento__arte--cores { gap: var(--space-2); }
 .mini {
   display: grid;
   justify-items: center;
   align-content: center;
   gap: var(--space-1);
-  width: 104px;
-  height: 104px;
+  flex: 1 1 0;
+  min-width: 0;
+  max-width: 104px;
+  aspect-ratio: 1;
   border-radius: 20px;
   color: var(--color-on-brand);
   font-size: var(--text-sm);
@@ -814,7 +816,7 @@ p { margin: 0; }
 .mini--purple { background: linear-gradient(180deg, var(--bento-purple-topo), var(--purple-500)); }
 
 .picto { display: block; overflow: visible; }
-.mini .picto { width: 48px; height: 48px; }
+.mini .picto { width: 48%; height: auto; }
 
 @media (min-width: 768px) {
   .bento {
@@ -826,23 +828,25 @@ p { margin: 0; }
   .bento__item--voz { grid-area: voz; }
   .bento__item--sugestoes { grid-area: sugestoes; }
   .bento__item { padding: var(--space-8); }
-  .mini { width: 120px; height: 120px; }
-  .mini .picto { width: 56px; height: 56px; }
+  .bento__arte--cores { gap: var(--space-3); }
+  .mini { flex: 0 0 120px; max-width: none; }
+  .mini .picto { width: 56px; }
 }
 
-/* Animação dentro do pictograma: só as peças do SVG se mexem (olhos, boca, ondas, balão, gota, pino).
-   Só no hover, com mouse, e nada com Reduzir Movimento. */
+/* Animação dentro do pictograma: só as peças do SVG se mexem (olhos, boca, ondas, balão, gota).
+   No hover com mouse; em loop sem mouse. Nada com Reduzir Movimento. */
 .picto g { transform-box: fill-box; transform-origin: center; }
 .picto .p-boca { transform-origin: 50% 0%; }
 .picto .p-bolha1, .picto .p-bolha2, .picto .p-bolha3 { transform-origin: 0% 100%; }
-.picto .p-pino, .picto .p-gota { transform-origin: 50% 100%; }
+.picto .p-gota { transform-origin: 50% 100%; }
 
 @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
   .bento__item:hover .p-olhos { animation: piscar 1.6s ease-in-out; }
   .bento__item:hover .p-sobr { animation: sobrancelha 1.6s cubic-bezier(.34, 1.56, .64, 1); }
   .bento__item:hover .picto--criar .p-boca,
   .bento__item:hover .picto--eu .p-boca,
-  .bento__item:hover .picto--querer .p-boca { animation: sorriso 1.6s cubic-bezier(.34, 1.56, .64, 1); }
+  .bento__item:hover .picto--querer .p-boca,
+  .bento__item:hover .picto--beber .p-boca { animation: sorriso 1.6s cubic-bezier(.34, 1.56, .64, 1); }
 
   .bento__item:hover .picto--falar .p-boca { animation: falar 1.6s ease-in-out; }
   .bento__item:hover .p-onda1 { animation: onda 1.6s ease-out both; }
@@ -855,8 +859,28 @@ p { margin: 0; }
   .bento__item:hover .picto--pensar .p-olhos { animation: olhar 1.6s ease-in-out; }
 
   .bento__item:hover .p-gota { animation: gota 1.6s cubic-bezier(.5, 0, .5, 1); }
-  .bento__item:hover .p-pino { animation: pino 1.6s cubic-bezier(.34, 1.56, .64, 1); }
-  .bento__item:hover .p-sombra { animation: sombra 1.6s cubic-bezier(.34, 1.56, .64, 1); }
+}
+/* Sem mouse (celular e iPad) não tem hover: as peças ficam em loop, mais devagar. */
+@media (hover: none) and (prefers-reduced-motion: no-preference) {
+  .bento__item .p-olhos { animation: piscar 1.6s ease-in-out; }
+  .bento__item .p-sobr { animation: sobrancelha 1.6s cubic-bezier(.34, 1.56, .64, 1); }
+  .bento__item .picto--criar .p-boca,
+  .bento__item .picto--eu .p-boca,
+  .bento__item .picto--querer .p-boca,
+  .bento__item .picto--beber .p-boca { animation: sorriso 1.6s cubic-bezier(.34, 1.56, .64, 1); }
+
+  .bento__item .picto--falar .p-boca { animation: falar 1.6s ease-in-out; }
+  .bento__item .p-onda1 { animation: onda 1.6s ease-out both; }
+  .bento__item .p-onda2 { animation: onda 1.6s ease-out 120ms both; }
+  .bento__item .p-onda3 { animation: onda 1.6s ease-out 240ms both; }
+
+  .bento__item .p-bolha1 { animation: bolha 1.6s cubic-bezier(.34, 1.56, .64, 1) both; }
+  .bento__item .p-bolha2 { animation: bolha 1.6s cubic-bezier(.34, 1.56, .64, 1) 120ms both; }
+  .bento__item .p-bolha3 { animation: bolha 1.6s cubic-bezier(.34, 1.56, .64, 1) 240ms both; }
+  .bento__item .picto--pensar .p-olhos { animation: olhar 1.6s ease-in-out; }
+
+  .bento__item .p-gota { animation: gota 1.6s cubic-bezier(.5, 0, .5, 1); }
+  .bento .bento__item .picto [class^="p-"] { animation-duration: 2.8s; animation-iteration-count: infinite; }
 }
 @keyframes piscar {
   0%, 30%, 40%, 70%, 80%, 100% { transform: scaleY(1); }
@@ -901,20 +925,6 @@ p { margin: 0; }
   60% { transform: translateY(0) scale(1.1, 0.85); }
   75%, 100% { transform: translateY(0) scale(1); }
 }
-@keyframes pino {
-  0%, 100% { transform: translateY(0) scale(1); }
-  25% { transform: translateY(-48px) scale(1); }
-  45% { transform: translateY(0) scale(1.06, 0.92); }
-  60% { transform: translateY(-16px) scale(1); }
-  75% { transform: translateY(0) scale(1); }
-}
-@keyframes sombra {
-  0%, 100% { transform: scaleX(1); opacity: 1; }
-  25% { transform: scaleX(0.6); opacity: 0.5; }
-  45% { transform: scaleX(1.05); opacity: 1; }
-  60% { transform: scaleX(0.85); }
-}
-
 .escuta {
   display: grid;
   gap: var(--space-10);
